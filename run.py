@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # PYTHON_ARGCOMPLETE_OK
+from typing import Any
 from inspect import Signature, Parameter
+import unittest
 
 
 def make_sig(names):
@@ -25,6 +27,10 @@ class MakeSigStruct(metaclass=MakeSigMeta):
             setattr(self, name, value)
 
 
+def as_tuple(s: MakeSigStruct) -> tuple[Any, ...]:
+    return tuple(s.__dict__.values())
+
+
 class Stock(MakeSigStruct):
     _fields = ["name", "shares", "price"]
 
@@ -33,8 +39,11 @@ class Point(MakeSigStruct):
     _fields = ["x", "y"]
 
 
+class TestMakeSig(unittest.TestCase):
+    def test_10(self):
+        s1 = Stock("ACME", 93, 490.1)
+        self.assertEqual(as_tuple(s1), ("ACME", 93, 490.1))
+
+
 if __name__ == "__main__":
-    s1 = Stock("ACME", 93, 490.1)
-    print(s1.name, s1.shares, s1.price)
-    s2 = Stock("ACME", 93)
-    # s3 = Stock(name="ACME", shares=93, name="ACME", price=490.1)
+    unittest.main()
