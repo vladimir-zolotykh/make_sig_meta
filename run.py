@@ -49,6 +49,11 @@ class TestMakeSig(unittest.TestCase):
             Stock("ACME", 93)
         self.assertEqual(str(cm.exception), "missing a required argument: 'price'")
 
+    def test_30(self):
+        with self.assertRaises(TypeError) as cm:
+            Stock("ACME", 100, 490.1, shares=50)
+        self.assertEqual(str(cm.exception), "multiple values for argument 'shares'")
+
 
 if __name__ == "__main__":
     unittest.main()
