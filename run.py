@@ -44,6 +44,11 @@ class TestMakeSig(unittest.TestCase):
         s1 = Stock("ACME", 93, 490.1)
         self.assertEqual(as_tuple(s1), ("ACME", 93, 490.1))
 
+    def test_20(self):
+        with self.assertRaises(TypeError) as cm:
+            Stock("ACME", 93)
+        self.assertEqual(str(cm.exception), "missing a required argument: 'price'")
+
 
 if __name__ == "__main__":
     unittest.main()
